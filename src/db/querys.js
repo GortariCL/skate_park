@@ -29,7 +29,24 @@ const nuevoSkater = async (...data) => {
             values: data,
         }
         const result = await pool.query(consulta);
-        return result;
+        return result.rows[0];
+    } catch (err) {
+        console.log(err);
+        console.log(`El error se encuentra en la tabla: ${err.table}.
+        El detalle del error es: ${err.detail}.
+        El código de error es: ${err.code}.
+        Restricción violada: ${err.constraint}`);
+    }
+}
+
+const setSkaterStatus = async (...data) => {
+    try {
+        const consulta = {
+            text: `UPDATE skaters SET estado = $2 WHERE id = $1 RETURNING *`,
+            values: data
+        }
+        const result = await pool.query(consulta);
+        return result.rows[0];
     } catch (err) {
         console.log(err);
         console.log(`El error se encuentra en la tabla: ${err.table}.
@@ -41,5 +58,6 @@ const nuevoSkater = async (...data) => {
 
 module.exports = {
     nuevoSkater,
-    getSkaters
+    getSkaters,
+    setSkaterStatus
 }

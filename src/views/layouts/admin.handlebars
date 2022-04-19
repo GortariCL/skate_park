@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-  
+
 {{> Head}}
 
 <body>
@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr class="tabla_skaters">
           <th scope="row">1</th>
           <td>
             <div></div>
@@ -32,7 +32,7 @@
           <td>Kickflip</td>
           <td><input type="checkbox" checked /></td>
         </tr>
-        <tr>
+        <tr class="tabla_skaters">
           <th scope="row">2</th>
           <td>
             <div></div>
@@ -42,7 +42,7 @@
           <td>Heelflip</td>
           <td><input type="checkbox" checked /></td>
         </tr>
-        <tr>
+        <tr class="tabla_skaters">
           <th scope="row">3</th>
           <td>
             <div></div>
@@ -52,6 +52,19 @@
           <td>Ollie</td>
           <td><input type="checkbox" /></td>
         </tr>
+
+        {{#each skaters}}
+        <tr>
+          <th scope="row">{{inc @index}}</th>
+          <td>
+            <div style="background-image: url('/imgs/{{this.foto}}');"></div>
+          </td>
+          <td>{{this.nombre}}</td>
+          <td>{{this.anos_experiencia}}</td>
+          <td>{{this.especialidad}}</td>
+          <td><input class="status-checkbox" type="checkbox" name="{{this.id}}" {{#if this.estado}} checked {{/if}}></td>
+        </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>
