@@ -42,9 +42,9 @@ router.get('/admin', (req, res) => {
 //RUTA OBTENER SKATERS INSCRITOS
 router.get('/skater', async (req, res) => {
     try {
-        const response = await getSkaters();
+        const skaters = await getSkaters();
         res.status = 201;
-        res.send(JSON.stringify(response));
+        res.send(skaters);
     } catch (err) {
         res.status = 500
         console.log(err);
