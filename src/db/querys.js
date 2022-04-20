@@ -7,10 +7,10 @@ const pool = new Pool({
     database: 'skatepark',
     port: 5432
 });
-
+//OBTENER TODOS LOS SKATERS
 const getSkaters = async () => {
     try {
-        const result = await pool.query(`SELECT * FROM skaters;`);
+        const result = await pool.query(`SELECT * FROM skaters ORDER BY id ASC;`);
         return result.rows;
     } catch (err) {
         console.log(err);
@@ -19,9 +19,8 @@ const getSkaters = async () => {
         El código de error es: ${err.code}.
         Restricción violada: ${err.constraint}`);
     }
-
 }
-
+//AGREGAR UN NUEVO SKATER
 const nuevoSkater = async (...data) => {
     try {
         const consulta = {
@@ -38,7 +37,7 @@ const nuevoSkater = async (...data) => {
         Restricción violada: ${err.constraint}`);
     }
 }
-
+//CAMBIAR ESTADO DEL SKATER
 const setSkaterStatus = async (...data) => {
     try {
         const consulta = {
@@ -55,9 +54,45 @@ const setSkaterStatus = async (...data) => {
         Restricción violada: ${err.constraint}`);
     }
 }
+//OBTENER DATOS DE COMPARACIÓN DESDE LA BASE DE DATOS
+const getSkater = async (...login) => {
+    try {
+        const consulta = {
+            text: `SELECT * FROM skaters WHERE email = $1 AND password =$2`,
+            values: login,
+        }
+        const result = await pool.query(consulta);
+        return result.rows[0];
+    } catch (err) {
+        console.log(err);
+        console.log(`El error se encuentra en la tabla: ${err.table}.
+        El detalle del error es: ${err.detail}.
+        El código de error es: ${err.code}.
+        Restricción violada: ${err.constraint}`);
+    }
+}
+//ACTUALIZACIÓN SKATER
+const updateSkater = async (...data) => {
+    try {
+        const consulta = {
+            text: 'UPDATE skaters SET nombre = $2, password = $3, anos_experiencia = $4, especialidad = $5 WHERE id = $1;',
+            values: data
+        }
+        const result = await pool.query(consulta);
+        return result.rowCount;
+    } catch (err) {
+        console.log(err);
+        console.log(`El error se encuentra en la tabla: ${err.table}.
+        El detalle del error es: ${err.detail}.
+        El código de error es: ${err.code}.
+        Restricción violada: ${err.constraint}`);
+    }
+}
 
 module.exports = {
     nuevoSkater,
     getSkaters,
-    setSkaterStatus
+    setSkaterStatus,
+    getSkater,
+    updateSkater
 }
