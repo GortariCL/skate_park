@@ -25,7 +25,7 @@ const statusSkater = (() => {
         });
     }
 })();
-//FUNCION VERIFICACION LOGIN
+//FUNCION VERIFICACION LOGIN SKATER
 $('#lgnBtn').click(async (e) => {
     e.preventDefault();
     const email = $('#email').val();
@@ -41,6 +41,23 @@ $('#lgnBtn').click(async (e) => {
         alert(error);
     }
 });
+//FUNCION VERIFICACION LOGIN ADMIN
+$('#lgnAdmin').click(async (e) => {
+    e.preventDefault();
+    const user = $('#user').val();
+    const password = $('#password').val();
+    const payload = { user, password };
+    console.log(payload)
+    try {
+        const { data: token } = await axios.post('/verify-admin', payload);
+        alert('Autenticación exitosa!');
+        window.location.href = `/panel-admin?token=${token}`;
+    } catch ({ response }) {
+        const { data } = response;
+        const { error } = data;
+        alert(error);
+    }
+});
 //FUNCION ACTUALIZAR SKATER
 $('#btnActualizar').click(async (e) => {
     e.preventDefault();
@@ -50,27 +67,37 @@ $('#btnActualizar').click(async (e) => {
     const passConfirm = $('#passConfirm').val();
     const anos_experiencia = $('#anos_experiencia').val();
     const especialidad = $('#especialidad').val();
-
-    if(password !== passConfirm){
-        alert('Password no coincide');
+    if (password !== passConfirm) {
+        alert('Passwords no coinciden');
         return false;
     }
-
     try {
         const { data } = await axios.put('/datos', {
             id,
             nombre,
             password,
-            passConfirm,
             anos_experiencia,
             especialidad
         });
-            alert('Actualización exitosa');
-            window.location.href = '/';
+        alert('Actualización exitosa');
+        window.location.href = '/';
 
-    } catch ({ response }) {
-        const { data } = response;
-        const { error } = data;
-        alert(error);
+    } catch (err) {
+        alert('Error: ', err);
+    }
+});
+//FUNCION ELIMINAR SKATER
+$('#btnEliminar').click(async (e) => {
+    e.preventDefault();
+    const id = $('#idSkater').val();
+    const foto = $('#fotoSkater').val();
+    try {
+        const { data } = await axios.delete(`/datos?id=${id}&foto=${foto}`);
+        if(data){
+            alert('Skater eliminado con éxito');
+            window.location.href = '/';
+        }
+    } catch (err) {
+        alert('Error: ', err);
     }
 });

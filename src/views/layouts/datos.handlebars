@@ -4,11 +4,12 @@
 {{> Head}}
 
 <body>
+
   <h1>Skate Park</h1>
 
   <div class="py-4">
     <h2>Datos del perfil</h2>
-    <hr class="w-50" />
+    <hr class="w-50 m-auto">
 
     <form>
       {{#if datos}}
@@ -45,6 +46,7 @@
         <button id="btnEliminar" class="btn btn-danger">Eliminar cuenta</button>
       </div>
       <input id="idSkater" value="{{datos.id}}" type="hidden">
+      <input id="fotoSkater" value="{{datos.foto}}" type="hidden">
       {{/if}}
     </form>
   </div>

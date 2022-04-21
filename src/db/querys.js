@@ -20,6 +20,23 @@ const getSkaters = async () => {
         Restricción violada: ${err.constraint}`);
     }
 }
+//OBTENER ADMIN
+const getAdmin = async (...login) => {
+    try {
+        const consulta = {
+            text: `SELECT * FROM admin WHERE usuario = $1 AND password =$2`,
+            values: login,
+        }
+        const result = await pool.query(consulta);
+        return result.rows[0];
+    } catch (err) {
+        console.log(err);
+        console.log(`El error se encuentra en la tabla: ${err.table}.
+        El detalle del error es: ${err.detail}.
+        El código de error es: ${err.code}.
+        Restricción violada: ${err.constraint}`);
+    }
+}
 //AGREGAR UN NUEVO SKATER
 const nuevoSkater = async (...data) => {
     try {
@@ -75,12 +92,29 @@ const getSkater = async (...login) => {
 const updateSkater = async (...data) => {
     try {
         const consulta = {
-            text: 'UPDATE skaters SET nombre = $2, password = $3, anos_experiencia = $4, especialidad = $5 WHERE id = $1;',
+            text: 'UPDATE skaters SET nombre = $2, password = $3, anos_experiencia = $4, especialidad = $5 WHERE id = $1 RETURNING *',
             values: data
         }
         const result = await pool.query(consulta);
-        return result.rowCount;
+        return result.rows[0];
     } catch (err) {
+        console.log(err);
+        console.log(`El error se encuentra en la tabla: ${err.table}.
+        El detalle del error es: ${err.detail}.
+        El código de error es: ${err.code}.
+        Restricción violada: ${err.constraint}`);
+    }
+}
+//ELIMINAR SKATER
+const deleteSkater = async (...data) => {
+    try{
+        const consulta = {
+            text: 'DELETE FROM skaters WHERE id = $1 RETURNING *',
+            values: data
+        }
+        const result = await pool.query(consulta);
+        return result.rows[0];
+    }catch(err){
         console.log(err);
         console.log(`El error se encuentra en la tabla: ${err.table}.
         El detalle del error es: ${err.detail}.
@@ -90,9 +124,11 @@ const updateSkater = async (...data) => {
 }
 
 module.exports = {
-    nuevoSkater,
     getSkaters,
+    getAdmin,
+    nuevoSkater,
     setSkaterStatus,
     getSkater,
-    updateSkater
-}
+    updateSkater,
+    deleteSkater,
+};

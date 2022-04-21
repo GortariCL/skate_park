@@ -2,9 +2,16 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const path = require('path');
+const fs = require('fs').promises;
 const router = express.Router();
 const secretKey = 'Secret Key';
-const { nuevoSkater, getSkaters, setSkaterStatus, getSkater, updateSkater } = require('../db/querys');
+const { getSkaters,
+    getAdmin,
+    nuevoSkater,
+    setSkaterStatus,
+    getSkater,
+    updateSkater,
+    deleteSkater } = require('../db/querys');
 
 //RUTA RAIZ
 router.get('/', async (req, res) => {
@@ -24,15 +31,15 @@ router.get('/registro', (req, res) => {
 router.get('/login', (req, res) => {
     res.render('login', {
         layout: 'login'
-    })
+    });
 });
 //RUTA DATOS
 router.get('/datos', (req, res) => {
     const { token } = req.query;
     jwt.verify(token, secretKey, (err, decoded) => {
         const { data } = decoded;
-        const { id, nombre, email, password, anos_experiencia, especialidad } = data;
-        const datos = { id, nombre, email, password, anos_experiencia, especialidad }
+        const { id, email, nombre, password, anos_experiencia, especialidad, foto } = data;
+        const datos = { id, email, nombre, password, anos_experiencia, especialidad, foto }
         err ? res.status(401).send(
             res.send({
                 error: '401 Unauthorized',
@@ -49,16 +56,32 @@ router.get('/datos', (req, res) => {
 //RUTA ADMIN
 router.get('/admin', async (req, res) => {
     try {
-        const skaters = await getSkaters();
-        res.render('admin', {
-            layout: 'admin',
-            skaters: skaters
+        res.render('loginAdmin', {
+            layout: 'loginAdmin',
         })
     } catch (err) {
         res.status = 500;
         res.send('Algo salió mal', err);
     }
-
+});
+//RUTA ADMIN
+router.get('/panel-admin', async (req, res) => {
+    const { token } = req.query;
+    const skaters = await getSkaters();
+    jwt.verify(token, secretKey, (err, decoded) => {
+        const { data } = decoded;
+        err ? res.status(401).send(
+            res.send({
+                error: '401 Unauthorized',
+                message: 'No estás autorizado para estar aquí!',
+                token_error: err.message,
+            })
+        )
+            : res.render('admin', {
+                layout: 'admin',
+                skaters: skaters
+            })
+    })
 });
 //RUTA OBTENER SKATERS INSCRITOS
 router.get('/skaters', async (req, res) => {
@@ -71,7 +94,7 @@ router.get('/skaters', async (req, res) => {
         res.send('Algo salió mal', err);
     }
 });
-//RUTA REGISTRO DE USUARIOS
+//RUTA REGISTRO DE SKATERS
 router.post('/skater', async (req, res) => {
     const { fotoPerfil } = req.files;
     const { name } = fotoPerfil;
@@ -105,7 +128,7 @@ router.put('/skater', async (req, res) => {
         });
     }
 });
-//VERIFICACION USUARIO
+//VERIFICACION SKATER
 router.post('/verify', async (req, res) => {
     const { email, password } = req.body;
     const skater = await getSkater(email, password);
@@ -136,14 +159,49 @@ router.post('/verify', async (req, res) => {
 router.put('/datos', async (req, res) => {
     const { id, nombre, password, anos_experiencia, especialidad } = req.body;
     try {
-            const response = await updateSkater(id, nombre, password, anos_experiencia, especialidad);
-            res.status(201).send(JSON.stringify(response));
+        const response = await updateSkater(id, nombre, password, anos_experiencia, especialidad);
+        res.status(201).send(response);
     } catch (error) {
         res.status(500).send({
             error: 'No se pudo realizar la actualización',
             code: 500
         })
 
+    }
+});
+//ELIMINAR USUARIO
+router.delete('/datos', async (req, res) => {
+    const { id, foto } = req.query;
+    console.log(foto);
+    try {
+        await fs.unlink(path.join(__dirname, '..', 'files', 'imgs', `${foto}`));
+        const response = await deleteSkater(id);
+        res.status(200).send(response);
+    } catch (error) {
+        res.status(500).send({
+            error: 'No se pudo eliminar al skater',
+            code: 500
+        })
+    }
+})
+//VERIFICACIÓN ADMIN
+router.post('/verify-admin', async (req, res) => {
+    const { user, password } = req.body;
+    const admin = await getAdmin(user, password);
+    if (admin) {
+        const token = jwt.sign(
+            {
+                exp: Math.floor(Date.now() / 1000) + 120,
+                data: admin,
+            },
+            secretKey
+        );
+        res.send(token);
+    } else {
+        res.status(401).send({
+            error: "Usuario no habilitado",
+            code: 401
+        });
     }
 });
 

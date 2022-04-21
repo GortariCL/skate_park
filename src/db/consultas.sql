@@ -10,3 +10,9 @@ CREATE TABLE skaters (
     foto VARCHAR(255) NOT NULL,
     estado BOOLEAN NOT NULL
 );
+
+CREATE TABLE admin(
+    usuario VARCHAR(25) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    password VARCHAR(25) NOT NULL
+);
