@@ -4,71 +4,74 @@
 {{> Head}}
 
 <body>
-  <h1>Skate Park</h1>
+  {{> Nav}}
+  <div class="py-4 container body-page">
+    <div class="contenedor">
+      <h1 class="h2 titulo">Administración</h1>
+      <hr class="w-25 m-auto mb-2">
 
-  <div class="py-4">
-    <h2>Administración</h2>
-    <hr class="w-50 m-auto">
+      <table class="table w-50 m-auto text-light">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Foto</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Años de experiencia</th>
+            <th scope="col">Especialidad</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="tabla_skaters">
+            <th scope="row">1</th>
+            <td>
+              <div></div>
+            </td>
+            <td>Tony Hawk</td>
+            <td>12</td>
+            <td>Kickflip</td>
+            <td><input type="checkbox" checked /></td>
+          </tr>
+          <tr class="tabla_skaters">
+            <th scope="row">2</th>
+            <td>
+              <div></div>
+            </td>
+            <td>Evelien Bouilliart</td>
+            <td>10</td>
+            <td>Heelflip</td>
+            <td><input type="checkbox" checked /></td>
+          </tr>
+          <tr class="tabla_skaters">
+            <th scope="row">3</th>
+            <td>
+              <div></div>
+            </td>
+            <td>Danny Way</td>
+            <td>8</td>
+            <td>Ollie</td>
+            <td><input type="checkbox" /></td>
+          </tr>
 
-    <table class="table w-50 m-auto">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Foto</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Años de experiencia</th>
-          <th scope="col">Especialidad</th>
-          <th scope="col">Estado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="tabla_skaters">
-          <th scope="row">1</th>
-          <td>
-            <div></div>
-          </td>
-          <td>Tony Hawk</td>
-          <td>12</td>
-          <td>Kickflip</td>
-          <td><input type="checkbox" checked /></td>
-        </tr>
-        <tr class="tabla_skaters">
-          <th scope="row">2</th>
-          <td>
-            <div></div>
-          </td>
-          <td>Evelien Bouilliart</td>
-          <td>10</td>
-          <td>Heelflip</td>
-          <td><input type="checkbox" checked /></td>
-        </tr>
-        <tr class="tabla_skaters">
-          <th scope="row">3</th>
-          <td>
-            <div></div>
-          </td>
-          <td>Danny Way</td>
-          <td>8</td>
-          <td>Ollie</td>
-          <td><input type="checkbox" /></td>
-        </tr>
-
-        {{#each skaters}}
-        <tr>
-          <th scope="row">{{inc @index}}</th>
-          <td>
-            <div style="background-image: url('/imgs/{{this.foto}}');"></div>
-          </td>
-          <td>{{this.nombre}}</td>
-          <td>{{this.anos_experiencia}}</td>
-          <td>{{this.especialidad}}</td>
-          <td><input class="status-checkbox" type="checkbox" name="{{this.id}}" {{#if this.estado}} checked {{/if}}></td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
+          {{#each skaters}}
+          <tr>
+            <th scope="row">{{inc @index}}</th>
+            <td>
+              <div style="background-image: url('/imgs/{{this.foto}}');"></div>
+            </td>
+            <td>{{this.nombre}}</td>
+            <td>{{this.anos_experiencia}}</td>
+            <td>{{this.especialidad}}</td>
+            <td><input class="status-checkbox" type="checkbox" name="{{this.id}}" {{#if this.estado}} checked {{/if}}>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
 
+  {{> Footer}}
   {{> BodyCDN}}
 </body>
 

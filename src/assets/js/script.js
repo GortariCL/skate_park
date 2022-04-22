@@ -1,3 +1,13 @@
+var nav = document.querySelector('nav');
+
+window.addEventListener('scroll', function () {
+    if (window.pageYOffset > 100) {
+        nav.classList.add('bg-dark', 'shadow');
+    } else {
+        nav.classList.remove('bg-dark', 'shadow');
+    }
+});
+
 //FUNCION PARA LIMPIAR FORMULARIO
 const limpiarForm = (async () => {
     const { data } = await axios.get("http://localhost:3000/skaters");
@@ -93,7 +103,7 @@ $('#btnEliminar').click(async (e) => {
     const foto = $('#fotoSkater').val();
     try {
         const { data } = await axios.delete(`/datos?id=${id}&foto=${foto}`);
-        if(data){
+        if (data) {
             alert('Skater eliminado con éxito');
             window.location.href = '/';
         }

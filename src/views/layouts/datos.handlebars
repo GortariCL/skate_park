@@ -4,53 +4,51 @@
 {{> Head}}
 
 <body>
+  {{> Nav}}
+  <div class="py-4 container body-page">
+    <div class="contenedor">
+      <h1 class=" h2 titulo">Perfil</h1>
+      <hr class="w-25 m-auto mb-2">
 
-  <h1>Skate Park</h1>
-
-  <div class="py-4">
-    <h2>Datos del perfil</h2>
-    <hr class="w-50 m-auto">
-
-    <form>
-      {{#if datos}}
-      <div class="form-group row w-50 m-auto">
-        <div class="form-group col-12 col-sm-6">
-          <label>Email</label>
-          <input id="email" class="form-control m-auto" disabled value='{{datos.email}}' />
+      <form>
+        {{#if datos}}
+        <div class="form-group row w-50 m-auto">
+          <div class="form-group col-12 col-sm-6">
+            <label>Email</label>
+            <input id="email" class="form-control m-auto" disabled value='{{datos.email}}' />
+          </div>
+          <div class="form-group col-12 col-sm-6">
+            <label>Nombre</label>
+            <input id="nombre" class="form-control m-auto" value="{{datos.nombre}}" pattern="^[a-zA-Z\s]+" />
+          </div>
+          <div class="form-group col-12 col-sm-6">
+            <label>Password</label>
+            <input id="password" type="password" class="form-control m-auto" value="{{datos.password}}" />
+          </div>
+          <div class="form-group col-12 col-sm-6">
+            <label>Repita la password</label>
+            <input id="passConfirm" type="password" class="form-control m-auto" value="{{datos.password}}" />
+          </div>
+          <div class="form-group col-12 col-sm-6">
+            <label>Años de experiencia</label>
+            <input id="anos_experiencia" class="form-control m-auto" value="{{datos.anos_experiencia}}" pattern="[0-9]+" />
+          </div>
+          <div class="form-group col-12 col-sm-6">
+            <label>Especialidad</label>
+            <input id="especialidad" class="form-control m-auto" value="{{datos.especialidad}}" />
+          </div>
         </div>
-        <div class="form-group col-12 col-sm-6">
-          <label>Nombre</label>
-          <input id="nombre" class="form-control m-auto" value="{{datos.nombre}}" />
+        <div class="mt-2">
+          <button id="btnActualizar" class="btn btn-primary mx-1">Actualizar</button>
+          <button id="btnEliminar" class="btn btn-danger mx-1">Eliminar cuenta</button>
         </div>
-        <div class="form-group col-12 col-sm-6">
-          <label>Password</label>
-          <input id="password" type="password" class="form-control m-auto" value="{{datos.password}}" />
-        </div>
-        <div class="form-group col-12 col-sm-6">
-          <label>Repita la password</label>
-          <input id="passConfirm" type="password" class="form-control m-auto" value="{{datos.password}}" />
-        </div>
-        <div class="form-group col-12 col-sm-6">
-          <label>Años de experiencia</label>
-          <input id="anos_experiencia" class="form-control m-auto" value="{{datos.anos_experiencia}}" />
-        </div>
-        <div class="form-group col-12 col-sm-6">
-          <label>Especialidad</label>
-          <input id="especialidad" class="form-control m-auto" value="{{datos.especialidad}}" />
-        </div>
-      </div>
-      <div class="mb-1">
-        <button id="btnActualizar" class="btn btn-primary">Actualizar</button>
-      </div>
-      <div>
-        <button id="btnEliminar" class="btn btn-danger">Eliminar cuenta</button>
-      </div>
-      <input id="idSkater" value="{{datos.id}}" type="hidden">
-      <input id="fotoSkater" value="{{datos.foto}}" type="hidden">
-      {{/if}}
-    </form>
+        <input id="idSkater" value="{{datos.id}}" type="hidden">
+        <input id="fotoSkater" value="{{datos.foto}}" type="hidden">
+        {{/if}}
+      </form>
+    </div>
   </div>
-
+  {{> Footer}}
   {{> BodyCDN}}
 </body>
 

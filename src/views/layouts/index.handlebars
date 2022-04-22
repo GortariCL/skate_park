@@ -4,12 +4,39 @@
 {{> Head}}
 
 <body>
-    <h1>Skate Park</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img id="nav-logo" src="/assets/img/logo.png" alt="logo-img" width="40">
+                SKATE PARK
+            </a>
+            <button id="btn-navbar" class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span id="btn-navbar" class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registro">Registro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Iniciar sesion</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <div class="py-4">
-        <h2>Lista de participantes</h2>
+    {{> Header}}
+    
+    <div class="py-4 container body-page">
+        <h1 class="h2 titulo">Participantes</h1>
 
-        <hr />
+        <hr class="w-50 mx-auto" />
 
         <table class="table table-dark">
             <thead>
@@ -62,14 +89,15 @@
                     <td>{{this.nombre}}</td>
                     <td>{{this.anos_experiencia}}</td>
                     <td>{{this.especialidad}}</td>
-                    <td {{#if this.estado}} class="text-success font-weight-bold" {{else}} class="text-warning font-weight-bold" {{/if}} >{{#if this.estado}} Aprobado {{else}} En revision {{/if}}</td>
+                    <td {{#if this.estado}} class="text-success font-weight-bold" {{else}}
+                        class="text-warning font-weight-bold" {{/if}}>{{#if this.estado}} Aprobado {{else}} En revision
+                        {{/if}}</td>
                 </tr>
                 {{/each}}
             </tbody>
         </table>
-        <a href="/login">Iniciar Sesión</a> |
-        <a href="/registro">Registrarme</a>
     </div>
+    {{> Footer}}
     {{> BodyCDN}}
 </body>
 

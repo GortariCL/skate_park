@@ -172,7 +172,6 @@ router.put('/datos', async (req, res) => {
 //ELIMINAR USUARIO
 router.delete('/datos', async (req, res) => {
     const { id, foto } = req.query;
-    console.log(foto);
     try {
         await fs.unlink(path.join(__dirname, '..', 'files', 'imgs', `${foto}`));
         const response = await deleteSkater(id);
