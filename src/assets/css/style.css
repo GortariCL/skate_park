@@ -87,8 +87,8 @@ nav a img,
 
 .button:hover::before,
 .button:hover::after {
-    width: calc(100% + 15px);
-    height: calc(100% + 15px);
+    width: calc(100% + 15.6px);
+    height: calc(100% + 15.6px);
 }
 
 .titulo {
